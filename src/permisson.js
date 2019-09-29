@@ -1,10 +1,10 @@
 import router from './router'
 import store from './store'
-import {getToken} from '@/utils/auth'
+// import {getToken} from '@/utils/auth'
 const whiteList = ['/login'] // 无需令牌白名单
 router.beforeEach(async (to, from, next) => {
   // 获取令牌判断用户是否登录
-  const hasToken = getToken()
+  const hasToken = ''
   if(hasToken) {
     if(to.path === '/login') {
       // 若已登录重定向首页
@@ -17,18 +17,18 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           // 先请求获取用户信息
-          const {roles} = await store.dispatch('user/getInfo')
+         //  const {roles} = await store.dispatch('user/getInfo')
           // 根据当前用户角色动态生成路由
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+         // const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           // 添加这些路由至路由器
-          router.addRoutes(accessRoutes)
+         // router.addRoutes(accessRoutes)
 
           // 继续路由切换，确保addRoutes完成
           next({...to, replace: true})
         }catch(err) {
           // 出错需重置令牌并重新登录(令牌过期、网络错误等原因)
-          await store.dispatch('user/resetToken')
-          next(`/login?redirect=${to.path}`)
+         // await store.dispatch('user/resetToken')
+         // next(`/login?redirect=${to.path}`)
         }
       }
     }
@@ -39,7 +39,8 @@ router.beforeEach(async (to, from, next) => {
       next()
     } else {
       // 重定向至登录页
-      next(`/login?redirect=${to.path}`)
+     // next(`/login?redirect=${to.path}`)
+     next('/login')
     }
   }
 })

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { getToken, setToken, removeToken } from "@/utils/auth";
   export default {
     data() {
       return {
@@ -28,20 +29,11 @@
     },
     methods: {
       login() {
+        console.log('见了鬼了')
         let {name:username, pass:password} = this.form
-        this.$http.post('http://localhost:3000/login', {
-          username,
-          password
-        }).then(res =>{
-          let {data} = res
-          if(!data.error) {
-            this.$router.push({
-              path: this.$route.query.redirect || '/'
-            })
-          }else {
-            alert(data.msg)
-          }
-        })
+        this.$store.dispatch('user/login', {username, password})
+        window.isLogin = true
+        this.$router.push({path: '/home'})
       }
     },
   }

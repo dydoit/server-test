@@ -4,7 +4,7 @@ import Layout from '@/layout'
 Vue.use(Router)
 
 // 通用页面
-const constRoutes = [
+export const constRoutes = [
   {
     path: '/login',
     component: () => import('@/views/Login.vue')
@@ -19,6 +19,7 @@ const constRoutes = [
         component: () => import('@/views/Home.vue'),
         name:'Home',
         meta: {
+          auth: true,
           title: 'Home'
         }
       }
@@ -37,13 +38,32 @@ export const asyncRoutes = [
         component:() => import(/* webpackChunkName: "home"*/ '@/views/About.vue'),
         meta: {
           title:'About',
-          roles: ['admin', 'editor']
+          auth: true,
+          roles: ['visitor']
         }
       }
     ]
+  },
+  {
+    path: '/shop',
+    component: () => import('@/views/Shop.vue'),
+    meta: {
+      auth: true,
+      roles: ['admin']
+    }
   }
 ]
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: constRoutes
+
 })
+// 路由守卫
+// router.beforeEach((to, from, next) => {
+//   if(to.meta.auth&&!window.isLogin) {
+//     next('/login')
+//   }else {
+//     next()
+//   }
+// })
+export default router

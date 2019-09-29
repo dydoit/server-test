@@ -1,6 +1,6 @@
 <template>
   <div>
-    这是about页面
+    这个必须是admin才能看到的页面
   </div>
 </template>
 
