@@ -4,6 +4,7 @@ const cors = require('@koa/cors')
 const body = require('koa-better-body')
 const mysql = require('mysql')
 const co = require('co-mysql')
+const jwt = require('jsonwebtoken')
 let cnn = mysql.createPool({
   connectionLimit:10,
   host: 'cdb-3knwpmdf.gz.tencentcdb.com',
@@ -36,7 +37,16 @@ router.post('/login', async ctx => {
       if(password!=data[0].password) {
         ctx.body = {error: 1, msg: '用户名或者密码不对'}
       }else {
-        ctx.body = {error: 0, msg: '登录成功', userInfo: data[0]}
+        // 如果用户名密码正确
+        const userToken = {
+          name: data[0].username,
+          id: data[0].id
+        }
+        const secret = 'vue-koa-demo'
+        const token = jwt.sign({userToken}, secret, {expiresIn: 10*60})
+        console.log(token)
+        // 登录成功派发token
+        ctx.body = {error: 0, msg: '登录成功', token}
       }
     }
 

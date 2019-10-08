@@ -17,18 +17,18 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           // 先请求获取用户信息
-         //  const {roles} = await store.dispatch('user/getInfo')
+          const {roles} = await store.dispatch('user/getInfo')
           // 根据当前用户角色动态生成路由
-         // const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+         const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           // 添加这些路由至路由器
-         // router.addRoutes(accessRoutes)
+         router.addRoutes(accessRoutes)
 
           // 继续路由切换，确保addRoutes完成
           next({...to, replace: true})
         }catch(err) {
           // 出错需重置令牌并重新登录(令牌过期、网络错误等原因)
-         // await store.dispatch('user/resetToken')
-         // next(`/login?redirect=${to.path}`)
+         await store.dispatch('user/resetToken')
+         next(`/login?redirect=${to.path}`)
         }
       }
     }

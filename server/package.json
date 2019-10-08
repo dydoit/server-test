@@ -13,6 +13,7 @@
   "dependencies": {
     "@koa/cors": "^2.2.3",
     "co-mysql": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.8.1",
     "koa-better-body": "^3.0.5",
     "koa-jwt": "^3.6.0",

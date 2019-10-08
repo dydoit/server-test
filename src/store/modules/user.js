@@ -17,15 +17,20 @@ const mutations = {
 const actions = {
   // 用户登录动作  user/login    dispatch('user/login')
   async login({ commit}, userInfo) {
-     let res = await axios.post('http://localhost:3000/login', {
+    return new Promise((resolve,reject) => {
+      axios.post('http://localhost:3000/login', {
        ...userInfo
-     })
-     let {data} =res
-     if(!data.error) {
-       window.sessionStorage.setItem('role', data.userInfo.role)
-       commit('SET_ROLES', [data.userInfo.role])
-       return true
-     }
+      }).then(res => {
+        let {data} =res
+        if(!data.error) {
+          window.sessionStorage.setItem('role', data.userInfo.role)
+          resolve(res)
+        }
+
+      }).catch(err => {
+        reject(err)
+      })
+    })
   },
   // 获取用户角色等信息
   getInfo({commit, state}) {

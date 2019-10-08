@@ -15,21 +15,18 @@ function hasPermission(roles, route) {
 // 递归过滤AsyncRoutes路由表
 export function filterAsyncRoutes(routes, roles) {
   const res = []
-  console.log('routes', routes)
   routes.forEach(route => {
     const tmp = {...route}
     // 如果用户有访问权限则加入结果路由表
     if(hasPermission(roles, tmp)) {
       // 如果存在子路由则递归过滤
       if(tmp.children) {
-        debugger
         tmp.children = filterAsyncRoutes(tmp.children, roles)
       }
       res.push(tmp)
     }
 
   })
-  console.log('res', res)
   return res;
 }
 const state = {
@@ -54,7 +51,6 @@ const actions = {
         accessedRoutes = asyncRoutes || []
       }else {
         // 根据角色过滤处理
-        console.log('asyncRoutes', asyncRoutes)
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
       commit('SET_ROUTES', accessedRoutes);

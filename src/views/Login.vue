@@ -18,6 +18,8 @@
 
 <script>
 import { getToken, setToken, removeToken } from "@/utils/auth";
+import crypto from 'crypto-browserify'
+const md5 = crypto.createHash('md5')
   export default {
     data() {
       return {
@@ -29,11 +31,20 @@ import { getToken, setToken, removeToken } from "@/utils/auth";
     },
     methods: {
       login() {
-        console.log('见了鬼了')
         let {name:username, pass:password} = this.form
-        this.$store.dispatch('user/login', {username, password})
-        window.isLogin = true
-        this.$router.push({path: '/home'})
+        md5.update(password)
+        let md5password = md5.digest('hex')
+        this.$store.dispatch('user/login', {username, password:md5password}).then(res => {
+          let {data} = res
+          if(!data.error) {
+            window.isLogin = true
+            this.$router.push({path: '/home'})
+          }else {
+            alert(data.msg)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       }
     },
   }

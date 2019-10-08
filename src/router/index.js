@@ -58,12 +58,4 @@ const router = new Router({
   routes: constRoutes
 
 })
-// 路由守卫
-// router.beforeEach((to, from, next) => {
-//   if(to.meta.auth&&!window.isLogin) {
-//     next('/login')
-//   }else {
-//     next()
-//   }
-// })
 export default router
