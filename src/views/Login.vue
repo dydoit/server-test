@@ -35,13 +35,13 @@ const md5 = crypto.createHash('md5')
         md5.update(password)
         let md5password = md5.digest('hex')
         this.$store.dispatch('user/login', {username, password:md5password}).then(res => {
-          let {data} = res
-          if(!data.error) {
-            window.isLogin = true
-            this.$router.push({path: '/home'})
-          }else {
-            alert(data.msg)
-          }
+          console.log(res)
+          // if(!data.error) {
+          //   window.isLogin = true
+          //   this.$router.push({path: '/home'})
+          // }else {
+          //   alert(data.msg)
+          // }
         }).catch(err => {
           console.log(err)
         })

@@ -23,8 +23,7 @@ const actions = {
       }).then(res => {
         let {data} =res
         if(!data.error) {
-          window.sessionStorage.setItem('role', data.userInfo.role)
-          resolve(res)
+          resolve(data)
         }
 
       }).catch(err => {
